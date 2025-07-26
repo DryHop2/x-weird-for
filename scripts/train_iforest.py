@@ -1,9 +1,13 @@
 import argparse
 import json
 import joblib
+import sys
 from sklearn.ensemble import IsolationForest
+from pathlib import Path
 
 from xweirdfor.extract_features import extract_features
+
+sys.path.append(str(Path(__file__).resolve().parent.parent))
 
 
 def load_data(path):
