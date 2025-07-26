@@ -1,0 +1,202 @@
+[
+  {
+    "Host": "example.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.1",
+    "Referer": "https://example.com/"
+  },
+  {
+    "Host": "api.example.com",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.2",
+    "Referer": "https://app.example.com/dashboard"
+  },
+  {
+    "Host": "service.example.com",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64)",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.3",
+    "Referer": "https://portal.example.com/"
+  },
+  {
+    "Host": "api.example.com",
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X)",
+    "Accept": "application/json",
+    "Accept-Encoding": "br, gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.4",
+    "Referer": "https://m.example.com/"
+  },
+  {
+    "Host": "login.example.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip",
+    "Connection": "keep-alive",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "X-Forwarded-For": "203.0.113.5",
+    "Referer": "https://auth.example.com/"
+  },
+  {
+    "Host": "store.example.com",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1)",
+    "Accept": "text/html",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "text/html",
+    "X-Forwarded-For": "203.0.113.6",
+    "Referer": "https://storefront.example.com/"
+  },
+  {
+    "Host": "example.org",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64)",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.7",
+    "Referer": "https://example.org/app"
+  },
+  {
+    "Host": "example.net",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.8",
+    "Referer": "https://example.net/dashboard"
+  },
+  {
+    "Host": "api.example.dev",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.9",
+    "Referer": "https://example.dev"
+  },
+  {
+    "Host": "backend.example.io",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64)",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.10",
+    "Referer": "https://admin.example.io"
+  },
+    {
+    "Host": "api.github.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "192.168.1.45",
+    "Referer": "https://github.com/dashboard"
+  },
+  {
+    "Host": "www.stackoverflow.com",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "X-Forwarded-For": "10.0.0.123",
+    "Referer": "https://www.google.com/search?q=python+help"
+  },
+  {
+    "Host": "cdn.jsdelivr.net",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36",
+    "Accept": "text/css,*/*;q=0.1",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "text/css",
+    "X-Forwarded-For": "172.16.254.78",
+    "Referer": "https://example.org/main-page"
+  },
+  {
+    "Host": "httpbin.org",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
+    "Accept": "application/json, text/javascript, */*; q=0.01",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "203.0.113.195",
+    "Referer": "https://developer.mozilla.org/en-US/docs/Web/API"
+  },
+  {
+    "Host": "jsonplaceholder.typicode.com",
+    "User-Agent": "Mozilla/5.0 (iPad; CPU OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Mobile/15E148 Safari/604.1",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json; charset=utf-8",
+    "X-Forwarded-For": "198.51.100.42",
+    "Referer": "https://codepen.io/pen/abc123"
+  },
+  {
+    "Host": "api.openweathermap.org",
+    "User-Agent": "Mozilla/5.0 (Android 11; Mobile; rv:68.0) Gecko/68.0 Firefox/88.0",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "192.0.2.156",
+    "Referer": "https://weather.com/forecast"
+  },
+  {
+    "Host": "fonts.googleapis.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36 Edg/92.0.902.55",
+    "Accept": "text/css,*/*;q=0.1",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "text/css; charset=utf-8",
+    "X-Forwarded-For": "10.1.1.98",
+    "Referer": "https://mywebsite.com/blog/post-123"
+  },
+  {
+    "Host": "reqres.in",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "172.31.0.205",
+    "Referer": "https://postman.com/workspace/my-tests"
+  },
+  {
+    "Host": "dummyjson.com",
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "text/html; charset=utf-8",
+    "X-Forwarded-For": "203.0.113.67",
+    "Referer": "https://jsonplaceholder.typicode.com/users"
+  },
+  {
+    "Host": "api.rest-assured.io",
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Mobile/15E148 Safari/604.1",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "198.51.100.89",
+    "Referer": "https://developer.apple.com/documentation/foundation"
+  }
+]
