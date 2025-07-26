@@ -3,6 +3,7 @@ import argparse
 import json
 
 from xweirdfor.extract_features import extract_features
+from xweirdfor.heuristics import analyze_headers
 
 
 def load_model(model_path):
@@ -41,12 +42,16 @@ def main():
 
     for i, headers in enumerate(header_sets):
         verdict, score = run_prediction(model, headers)
-        print(json.dumps({
+        heuristics = analyze_headers(headers)
+
+        result = {
             "index": i,
             "verdict": verdict,
-            "score": score
-        }, indent=2))
+            "score": score,
+            **heuristics
+        }
 
+        print(json.dumps(result, indent=2))
 
 if __name__ == "__main__":
     main()
