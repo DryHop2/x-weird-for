@@ -1,0 +1,10 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    # container_name: python-dev
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
