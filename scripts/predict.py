@@ -25,7 +25,7 @@ def run_prediction(model, header_dict):
 def main():
     parser = argparse.ArgumentParser(description="Analyze HTTP headers for anomalies.")
     parser.add_argument("--input", required=True, help="Path to header JSON file")
-    parser.add_argument("--model", default="model.pkl", help="Path to saved model")
+    parser.add_argument("--model", default="models/model.pkl", help="Path to saved model")
     parser.add_argument("--bulk", action="store_true", help="Enable batch mode for multiple header sets")
 
     args = parser.parse_args()

@@ -1,0 +1,6 @@
+{
+  "User-Agent": "curl/7.68.0",
+  "Accept": "*/*",
+  "X-Test": "1",
+  "X-Foo": "bar"
+}
