@@ -1,4 +1,4 @@
-from extract_features import EXPECTED_HEADERS, KNOWN_BAD_UA_PATTERNS
+from xweirdfor.extract_features import EXPECTED_HEADERS, KNOWN_BAD_UA_PATTERNS
 
 
 UNCOMMON_HEADERS = {
