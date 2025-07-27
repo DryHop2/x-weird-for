@@ -198,5 +198,218 @@
     "Content-Type": "application/json",
     "X-Forwarded-For": "198.51.100.89",
     "Referer": "https://developer.apple.com/documentation/foundation"
+  },
+    {
+    "Host": "news.example.com",
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X)",
+    "Accept": "text/html,application/xhtml+xml",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Referer": "https://example.com/news",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "X-Forwarded-For": "203.0.113.55"
+  },
+  {
+    "Host": "auth.example.com",
+    "User-Agent": "Mozilla/5.0 (Linux; Android 11)",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "X-Requested-With": "XMLHttpRequest",
+    "Referer": "https://login.example.com/",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "198.51.100.23"
+  },
+  {
+    "Host": "media.example.org",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "Accept": "image/webp,image/apng,image/svg+xml,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "application/octet-stream",
+    "Referer": "https://cdn.example.org/image-viewer",
+    "X-Forwarded-For": "10.0.0.42"
+  },
+  {
+    "Host": "dashboard.example.net",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_4_0)",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip",
+    "Connection": "keep-alive",
+    "X-Foo": "bar",
+    "Content-Type": "application/json",
+    "Referer": "https://example.net/app",
+    "X-Forwarded-For": "172.16.10.100"
+  },
+  {
+    "Host": "checkout.example.store",
+    "User-Agent": "Mozilla/5.0 (Linux; Android 10)",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Referer": "https://store.example.store/cart",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "X-Forwarded-For": "203.0.113.88"
+  },
+  {
+    "Host": "cdn.example.dev",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64)",
+    "Accept": "text/css,*/*;q=0.1",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "Content-Type": "text/css",
+    "Referer": "https://dev.example.dev/assets",
+    "X-Forwarded-For": "198.18.0.14"
+  },
+  {
+    "Host": "profile.example.social",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; rv:91.0) Gecko/20100101 Firefox/91.0",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "X-Fetch-Mode": "cors",
+    "Content-Type": "application/json",
+    "Referer": "https://social.example.com/u/me",
+    "X-Forwarded-For": "192.168.0.2"
+  },
+  {
+    "Host": "api.example.chat",
+    "User-Agent": "Mozilla/5.0 (iPad; CPU OS 13_5 like Mac OS X)",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "Referer": "https://app.example.chat/inbox",
+    "X-Forwarded-For": "203.0.113.134"
+  },
+  {
+    "Host": "media.example.blog",
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:88.0) Gecko/20100101 Firefox/88.0",
+    "Accept": "image/webp,*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "image/png",
+    "Referer": "https://blog.example.com/gallery",
+    "X-Forwarded-For": "192.0.2.77"
+  },
+  {
+    "Host": "metrics.example.dev",
+    "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "198.51.100.99",
+    "Referer": "https://example.dev/analytics"
+  },
+  {
+    "Host": "api.twitter.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0) Gecko/20100101 Firefox/93.0",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "X-Requested-With": "XMLHttpRequest",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "10.0.0.87",
+    "Referer": "https://twitter.com/home"
+  },
+  {
+    "Host": "cdn.shopify.com",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
+    "Accept": "text/css,*/*;q=0.1",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "X-Frame-Options": "SAMEORIGIN",
+    "Content-Type": "text/css",
+    "X-Forwarded-For": "203.0.113.22",
+    "Referer": "https://mystore.shopify.com/products/widget"
+  },
+  {
+    "Host": "graph.facebook.com",
+    "User-Agent": "Mozilla/5.0 (Android 12; Mobile; rv:68.0) Gecko/68.0 Firefox/91.0",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "X-FB-App-Version": "v13.0",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "172.16.0.143",
+    "Referer": "https://developers.facebook.com/tools/explorer"
+  },
+  {
+    "Host": "api.stripe.com",
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+    "Accept": "application/json, text/javascript, */*; q=0.01",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "X-Client-Info": "web-checkout/1.2.3",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "198.51.100.134",
+    "Referer": "https://checkout.stripe.com/pay/cs_test_123abc"
+  },
+  {
+    "Host": "uploads.s3.amazonaws.com",
+    "User-Agent": "Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1",
+    "Accept": "image/webp,image/apng,image/*,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "X-Amz-Content-Sha256": "UNSIGNED-PAYLOAD",
+    "Content-Type": "multipart/form-data",
+    "X-Forwarded-For": "192.0.2.78",
+    "Referer": "https://myapp.com/upload-photo"
+  },
+  {
+    "Host": "api.slack.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 11.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
+    "Accept": "application/json",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "X-Slack-User": "U1234567890",
+    "Content-Type": "application/json; charset=utf-8",
+    "X-Forwarded-For": "10.1.0.99",
+    "Referer": "https://app.slack.com/client/T123ABC/C456DEF"
+  },
+  {
+    "Host": "fonts.gstatic.com",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15",
+    "Accept": "font/woff2,font/woff;q=0.9,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "X-Origin": "https://fonts.googleapis.com",
+    "Content-Type": "font/woff2",
+    "X-Forwarded-For": "203.0.113.156",
+    "Referer": "https://fonts.googleapis.com/css2?family=Roboto:wght@400;700"
+  },
+  {
+    "Host": "api.zoom.us",
+    "User-Agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:92.0) Gecko/20100101 Firefox/92.0",
+    "Accept": "application/json, text/plain, */*",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "X-Zoom-Portal": "web-client",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "172.31.255.12",
+    "Referer": "https://zoom.us/wc/join/123456789"
+  },
+  {
+    "Host": "api.github.com",
+    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.1 Mobile/15E148 Safari/604.1",
+    "Accept": "application/vnd.github.v3+json",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "X-GitHub-Media-Type": "github.v3; format=json",
+    "Content-Type": "application/json",
+    "X-Forwarded-For": "198.51.100.201",
+    "Referer": "https://github.com/user/repository/issues"
+  },
+  {
+    "Host": "analytics.google.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36 Edg/97.0.1072.55",
+    "Accept": "image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Connection": "keep-alive",
+    "X-Client-Data": "CKG1yQEIkbbJAQiltskBCKmdygEI7+DKAQiVocsBCJz+ywEI2YjMAQi5kswB",
+    "Content-Type": "image/gif",
+    "X-Forwarded-For": "192.168.1.234",
+    "Referer": "https://mywebsite.com/blog/analytics-setup"
   }
 ]
