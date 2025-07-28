@@ -18,10 +18,12 @@ Built for the Boot.dev 3-Day Hackathon (2025-07-25 -- 2025-07-28)
 
 ### 1. Clone the repo
 ```git clone https://github.com/DryHop2/x-weird-for.git```
+
 cd x-weird-for
 
 ### 2. Set up (Docker or local)
 Using Python 3.10+
+
 ```pip install -r requirements.txt```
 
 **Optional: Run with Docker**
@@ -33,6 +35,7 @@ If you prefer Docker, the files (Dockerfile, docker-compose.yml, and .devcontain
 ```python3 -m scripts.predict --input examples/good_request.json```
 
 or bulk test
+
 ```python3 -m scripts.predict --input examples/gray_request.json```
 
 -----
