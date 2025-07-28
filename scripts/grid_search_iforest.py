@@ -26,9 +26,10 @@ def evaluate_model(model, data, threshold):
 
     report = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
     f1_suspicious = report["suspicious"]["f1-score"]
+    recall_suspicious = report["suspicious"]["recall"]
     accuracy = accuracy_score(y_true, y_pred)
 
-    return f1_suspicious, accuracy
+    return f1_suspicious, recall_suspicious, accuracy
 
 
 def main():
@@ -45,6 +46,7 @@ def main():
     max_features_options = [0.5, 0.75, 1.0]
 
     best_score = 0
+    best_recall = 0
     best_accuracy = 0
     best_model = None
     best_params = None
@@ -62,12 +64,16 @@ def main():
         features = [extract_features(d["headers"]) for d in data]
         model.fit(features)
         
-        f1, acc = evaluate_model(model, data, threshold=args.threshold)
+        f1, recall, acc = evaluate_model(model, data, threshold=args.threshold)
 
-        print(f"[n_estimators={n:<3} | contamination:{c:<4} | max_features={m:<4}] -> F1 (suspicious): {f1:.3f} | Accuracy: {acc:.3f}")
+        print(f"[n_estimators={n:<3} | contamination:{c:<4} | max_features={m:<4}] -> F1 (suspicious): {f1:.3f} | Recall: {recall:.3f} | Accuracy: {acc:.3f}")
 
-        if f1 > best_score or (f1 == best_score and acc > best_accuracy):
+        if (
+            f1 > best_score or
+            (f1 == best_score and recall > best_recall) or
+            (f1 == best_score and recall > best_recall and acc > best_accuracy)):
             best_score = f1
+            best_recall = recall
             best_accuracy = acc
             best_model = model
             best_params = (n, c, m)
