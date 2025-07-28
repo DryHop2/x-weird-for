@@ -1,0 +1,222 @@
+[
+  {
+    "headers": {
+      "Host": "example.com",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+      "Accept": "*/*",
+      "Accept-Encoding": "gzip, deflate",
+      "Connection": "keep-alive",
+      "Content-Type": "application/json",
+      "X-Forwarded-For": "203.0.113.42",
+      "Referer": "https://example.com/"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "User-Agent": "curl/7.68.0",
+      "Accept": "*/*",
+      "X-Test": "1",
+      "X-Foo": "bar"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "api.example.com",
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+      "Accept": "application/json",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "Content-Type": "application/json",
+      "X-Forwarded-For": "203.0.113.2",
+      "Referer": "https://app.example.com/dashboard"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "Host": "cdn.example.dev",
+      "User-Agent": "PostmanRuntime/7.28.0",
+      "Accept": "*/*",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "Content-Type": "application/json",
+      "Referer": "https://example.dev/api/test"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "User-Agent": "python-requests/2.31",
+      "Accept": "*/*"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "login.example.com",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+      "Accept": "*/*",
+      "Accept-Encoding": "gzip",
+      "Connection": "keep-alive",
+      "Content-Type": "application/x-www-form-urlencoded",
+      "X-Forwarded-For": "203.0.113.5",
+      "Referer": "https://auth.example.com/"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)",
+      "Accept": "application/json",
+      "Accept-Encoding": "gzip",
+      "Connection": "keep-alive",
+      "Referer": "https://discordapp.com/channels",
+      "Content-Type": "application/json"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "fonts.googleapis.com",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      "Accept": "text/css,*/*;q=0.1",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "Content-Type": "text/css; charset=utf-8",
+      "X-Forwarded-For": "10.1.1.98",
+      "Referer": "https://mywebsite.com/blog/post-123"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)",
+      "Accept": "*/*",
+      "X-Random": "10+3"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "store.example.com",
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 12_2_1)",
+      "Accept": "text/html",
+      "Accept-Encoding": "gzip, deflate",
+      "Connection": "keep-alive",
+      "Content-Type": "text/html",
+      "X-Forwarded-For": "203.0.113.6",
+      "Referer": "https://storefront.example.com/"
+    },
+    "label": "normal"
+  },
+    {
+    "headers": {
+      "User-Agent": "python-requests/2.28.1",
+      "Accept": "application/json",
+      "Host": "api.example.com"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "cdn.example.com",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36",
+      "Accept": "text/css,*/*;q=0.1",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "Content-Type": "text/css",
+      "X-Forwarded-For": "192.168.1.45",
+      "Referer": "https://example.com/main"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "User-Agent": "wget/1.20.3 (linux-gnu)",
+      "Accept": "*/*",
+      "X-Test": "automated"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "api.paypal.com",
+      "User-Agent": "Mozilla/5.0 (iPad; CPU OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1",
+      "Accept": "application/json, text/plain, */*",
+      "Accept-Encoding": "gzip, deflate",
+      "Connection": "keep-alive",
+      "Content-Type": "application/json",
+      "X-Forwarded-For": "203.0.113.89",
+      "Referer": "https://checkout.paypal.com/smart/card-fields"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "Host": "target.com",
+      "User-Agent": "Scrapy/2.5.1 (+https://scrapy.org)",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "Accept-Encoding": "gzip, deflate",
+      "X-Foo": "scraper_id_12345"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "fonts.gstatic.com",
+      "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.1 Safari/605.1.15",
+      "Accept": "font/woff2,font/woff;q=0.9,*/*;q=0.8",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "Content-Type": "font/woff2",
+      "X-Forwarded-For": "172.16.0.234",
+      "Referer": "https://fonts.googleapis.com/css2?family=Inter:wght@400;600"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "User-Agent": "curl/7.81.0",
+      "Accept": "*/*",
+      "DNT": "1"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "graph.instagram.com",
+      "User-Agent": "Mozilla/5.0 (Android 12; Mobile; rv:68.0) Gecko/68.0 Firefox/91.0",
+      "Accept": "application/json",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "Content-Type": "application/json",
+      "X-Forwarded-For": "198.51.100.77",
+      "Referer": "https://www.instagram.com/explore/"
+    },
+    "label": "normal"
+  },
+  {
+    "headers": {
+      "Host": "httpbin.org",
+      "User-Agent": "Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)",
+      "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+      "X-Requested-With": "bot-crawler"
+    },
+    "label": "suspicious"
+  },
+  {
+    "headers": {
+      "Host": "uploads.github.com",
+      "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",
+      "Accept": "application/octet-stream,*/*;q=0.8",
+      "Accept-Encoding": "gzip, deflate, br",
+      "Connection": "keep-alive",
+      "Content-Type": "multipart/form-data",
+      "X-Forwarded-For": "10.0.0.156",
+      "Referer": "https://github.com/user/repo/upload"
+    },
+    "label": "normal"
+  }
+]
