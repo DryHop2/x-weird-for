@@ -23,6 +23,7 @@ cd x-weird-for
 ### 2. Set up (Docker or local)
 Using Python 3.10+
 ```pip install -r requirements.txt```
+
 **Optional: Run with Docker**
 If you prefer Docker, the files (Dockerfile, docker-compose.yml, and .devcontainer/) I used are in the repo for setup or just launch it in your own container.
 (NOTE: If you have to set up Docker from the start, this may exceed the 5 minute start time constraint of the Hackathon)
@@ -30,6 +31,7 @@ If you prefer Docker, the files (Dockerfile, docker-compose.yml, and .devcontain
 
 ### 3. Run a test
 ```python3 -m scripts.predict --input examples/good_request.json```
+
 or bulk test
 ```python3 -m scripts.predict --input examples/gray_request.json```
 
