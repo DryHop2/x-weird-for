@@ -1,7 +1,8 @@
 # x-weird-for
 
 **HTTP Header Anomaly Detection Using ML and Heuristics**
-Built for the Boot.dev 3-Day Hackathon (2025-07-25 -- 2025-07-28)
+
+Built for the [Boot.dev](https://www.boot.dev/) 3-Day Hackathon (2025-07-25 -- 2025-07-28)
 
 -----
 
