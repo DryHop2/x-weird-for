@@ -8,3 +8,4 @@ __pycache__/
 .devcontainer/
 .DS_Store
 .vscode/
+synthetic_eval.json
