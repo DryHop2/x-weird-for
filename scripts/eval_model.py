@@ -1,6 +1,8 @@
 import argparse
 import json
 import joblib
+import matplotlib.pyplot as plt
+import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix
 
 from xweirdfor.extract_features import extract_features
@@ -52,6 +54,22 @@ def main():
     avg_suspicious = sum(score for score, label in zip(all_scores, y_true) if label == "suspicious") / y_true.count("suspicious")
     print(f"Average score for normal:  {avg_normal:.4f}")
     print(f"Average score for suspicious:  {avg_suspicious:.4f}")
+
+    normal_scores = [score for score, label in zip(all_scores, y_true) if label == "normal"]
+    suspicious_scores = [score for score, label in zip(all_scores, y_true) if label == "suspicious"]
+
+    bins = np.linspace(-0.1, 0.2, 100)
+
+    plt.hist(normal_scores, bins=bins, alpha=0.5, label="normal", color="green", density=True, histtype="step")
+    plt.hist(suspicious_scores, bins=bins, alpha=0.5, label="suspicious", color="red", density=True, histtype="step")
+    plt.axvline(x=args.threshold, color="black", linestyle="--", label="threshold")
+    plt.title("Isolation Forest Anomaly Scores")
+    plt.xlabel("Anomaly Score")
+    plt.ylabel("Frequency")
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig("examples/score_distribution.png")
+    print("Score plot saved to examples/score_distribution.png")
 
 
 if __name__ == "__main__":
