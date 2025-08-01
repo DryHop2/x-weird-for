@@ -45,7 +45,11 @@ def main():
 
     args = parser.parse_args()
     data = load_data(args.input)
-    features = build_feature_matrix(data)
+    if "headers" in data[0]:
+        header_sets = [d["headers"] for d in data]
+    else:
+        header_sets = data
+    features = build_feature_matrix(header_sets)
     model = train_model(
         features,
         n_estimators=args.n_estimators,

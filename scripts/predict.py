@@ -7,8 +7,6 @@ from pathlib import Path
 from xweirdfor.extract_features import extract_features
 from xweirdfor.heuristics import analyze_headers
 
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
 
 def load_model(model_path):
     return joblib.load(model_path)
