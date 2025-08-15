@@ -1,65 +1,48 @@
-import argparse
-import json
-import joblib
-import sys
 from sklearn.ensemble import IsolationForest
-from pathlib import Path
-
-from xweirdfor.extract_features import extract_features
-
-sys.path.append(str(Path(__file__).resolve().parent.parent))
-
-
-def load_data(path):
-    with open(path, "r") as f:
-        data = json.load(f)
-
-    if not isinstance(data, list):
-        raise ValueError("Training data must be a list of header objects.")
-    
-    return data
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+import warnings
+warnings.filterwarnings('ignore')
 
 
-def build_feature_matrix(header_sets):
-    return [extract_features(headers) for headers in header_sets]
+def train_ensemble_model(features, args):
+    """
+    Train an ensemble of Isolation Forest models with different parameters.
+    """
+    models = []
 
+    # Train multiple models with different random states and parameters
+    param_sets = [
+        {"n_estimators": 100, "contamination": 0.1, "max_features": 1.0},
+        {"n_estimators": 150, "contamination": 0.05, "max_features": 0.8},
+        {"n_estimators": 200, "contamination": 0.15, "max_features": 0.6},
+    ]
 
-def train_model(features, n_estimators, contamination, max_features):
-    model = IsolationForest(
-        n_estimators=n_estimators,
-        contamination=contamination,
-        max_features=max_features,
-        random_state=42
-    )
-    model.fit(features)
-    return model
+    for i, params in enumerate(param_sets):
+        model = IsolationForest(
+            n_estimators=params["n_estimators"],
+            contamination=params["contamination"],
+            max_features=params["max_features"],
+            random_state=42 + i,
+            n_jobs=-1
+        )
+        model.fit(features)
+        models.append(model)
 
-
-def main():
-    parser = argparse.ArgumentParser(description="Train Isolation Forest on HTTP headers")
-    parser.add_argument("--input", required=True, help="Path to JSON file of header sets")
-    parser.add_argument("--output", default="model.pkl", help="Output model file")
-    parser.add_argument("--n-estimators", type=int, default=100, help="Number of trees (default: 100)")
-    parser.add_argument("--contamination", type=float, default=0.1, help="Expected proportion of anomalies (default: 0.1)")
-    parser.add_argument("--max-features", type=float, default=1.0, help="Number of features to draw at each split (default: 1.0)")
-
-    args = parser.parse_args()
-    data = load_data(args.input)
-    if "headers" in data[0]:
-        header_sets = [d["headers"] for d in data]
-    else:
-        header_sets = data
-    features = build_feature_matrix(header_sets)
-    model = train_model(
-        features,
+    # Also train the main model
+    main_model = IsolationForest(
         n_estimators=args.n_estimators,
         contamination=args.contamination,
-        max_features=args.max_features
+        max_features=args.max_features,
+        random_state=42,
+        bootstrap=True,
+        n_jobs=-1
     )
+    main_model.fit(features)
 
-    joblib.dump(model, args.output)
-    print(f"Model saved to {args.output}")
-
-
-if __name__ == "__main__":
-    main()
+    return {
+        "main_model": main_model,
+        "ensemble": models,
+        "scaler": None, # Will be set if scaling is used
+        "pca": None # Will be set if PCA is used
+    }
