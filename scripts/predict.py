@@ -2,7 +2,6 @@ import joblib
 import argparse
 import json
 import numpy as np
-from pathlib import Path
 
 from xweirdfor.extract_features import extract_features
 from xweirdfor.heuristics import analyze_headers
@@ -51,7 +50,7 @@ def predict_ensemble_model(models, features):
         })
         scores.append(score)
 
-    # Aggressive decisions
+    # Aggregate decisions
     suspicious_votes = sum(1 for v in votes if v["verdict"] == "suspicious")
     total_votes = len(votes)
 
@@ -142,12 +141,12 @@ def main():
         if heuristics.get("suspicious_headers"):
             result["suspicious_headers"] = heuristics["suspicious_headers"]
 
-        # Caluclate combined verdict (for ensemble, this is more nuanced)
+        # Calculate combined verdict (for ensemble, this is more nuanced)
         if model_data["type"] == "ensemble":
             if ml_result["verdict"] == "gray":
                 # Use heuristics as a tiebreaker
                 if heuristics.get("risk_score", 0) > 0.5:
-                    result["final_verdict"] = "suspcious"
+                    result["final_verdict"] = "suspicious"
                 elif heuristics.get("risk_score", 0) < 0.2:
                     result["final_verdict"] = "normal"
                 else:
@@ -174,10 +173,10 @@ def main():
             print(f"Model type: {result['model_type']}")
 
             if result["model_type"] == "ensemble":
-                print(f"ML Votes: {result['vote_summart']}")
+                print(f"ML Votes: {result['vote_summary']}")
                 print(f"Confidence: {result['confidence']:.1%}")
                 if args.verbose:
-                    print("\nDetailed votes:")
+                    print("\nDetailed Votes:")
                     for vote in result.get("votes", []):
                         print(f"  {vote['model']:12} -> {vote['verdict']:10} (score: {vote['score']:.3f})")
             else:
