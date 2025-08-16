@@ -20,7 +20,7 @@ EXPECTED_HEADERS = {
     "Cookie": 1.0,
     "Authorization": 1.0,
     "Cache-Control": 1.0,
-    # Proxy/forwarding headerts (weight: 0.8)
+    # Proxy/forwarding headers (weight: 0.8)
     "X-Forwarded-For": 0.8,
     "X-Real-IP": 0.8,
     "X-Forwarded-Proto": 0.8,
@@ -41,20 +41,21 @@ SUSPICIOUS_UA_PATTERNS = {
     # Low severity (score: 0.4)
     r'\bJava\b': 0.4,
     r'\bRuby\b': 0.4,
-    r'\bPerl\b': 0.4,
+    r'\bPerl\b': 0.4
 }
 
-LEGITIMATE_UA_PATTERNS = {
+
+LEGITIMATE_UA_PATTERNS = [
     r'Mozilla/5\.0',
     r'AppleWebKit',
     r'Chrome/\d+',
     r'Safari/\d+',
     r'Firefox/\d+',
     r'Edge/\d+',
-}
+]
 
 
-def calculate_entropy(text: str) -> float:
+def _calculate_entropy(text: str) -> float:
     """
     Calculate Shannon entropy of a string.
     """
@@ -75,7 +76,7 @@ def calculate_entropy(text: str) -> float:
     return entropy
 
 
-def calculate_char_diversity(text: str) -> float:
+def _calculate_char_diversity(text: str) -> float:
     """
     Calculate character diversity ratio.
     """
@@ -85,7 +86,7 @@ def calculate_char_diversity(text: str) -> float:
     return unique_chars / len(text)
 
 
-def detect_encoding_anomalies(value: str) -> float:
+def _detect_encoding_anomalies(value: str) -> float:
     """
     Detect suspicious encoding patterns.
     """
@@ -107,7 +108,7 @@ def detect_encoding_anomalies(value: str) -> float:
     return min(score, 1.0)
 
 
-def analyze_header_structure(headers: Dict[str, str]) -> Dict[str, float]:
+def _analyze_header_structure(headers: Dict[str, str]) -> Dict[str, float]:
     """
     Analyze overall header structure patterns.
     """
@@ -143,7 +144,7 @@ def analyze_header_structure(headers: Dict[str, str]) -> Dict[str, float]:
     # Most headers should be HTTP-standard case
     total_headers = sum(case_patterns.values())
     if total_headers > 0:
-        features['case_consistency'] = case_patterns.get('http_standard', 0)
+        features['case_consistency'] = case_patterns.get('http_standard', 0) / total_headers
     else:
         features['case_consistency'] = 0
 
@@ -186,8 +187,8 @@ def extract_features(header_dict: Dict[str, str]) -> List[float]:
     features.append(legitimate_score)
 
     # UA entropy and diversity
-    features.append(calculate_entropy(ua))
-    features.append(calculate_char_diversity(ua))
+    features.append(_calculate_entropy(ua))
+    features.append(_calculate_char_diversity(ua))
 
     # Header count and statistics
     features.append(len(header_dict))
@@ -209,17 +210,17 @@ def extract_features(header_dict: Dict[str, str]) -> List[float]:
     encoding_anomaly_score = 0
 
     for _, value in header_dict.items():
-        entropy = calculate_entropy(value)
+        entropy = _calculate_entropy(value)
         total_entropy += entropy
         max_entropy = max(max_entropy, entropy)
-        encoding_anomaly_score += detect_encoding_anomalies(value)
+        encoding_anomaly_score += _detect_encoding_anomalies(value)
 
     features.append(total_entropy / max(len(header_dict), 1))
     features.append(max_entropy)
     features.append(encoding_anomaly_score / max(len(header_dict), 1))
 
     # Structural analysis features
-    structural_features = analyze_header_structure(header_dict)
+    structural_features = _analyze_header_structure(header_dict)
     features.append(structural_features['header_order_deviation'])
     features.append(structural_features['case_consistency'])
 
@@ -239,11 +240,37 @@ def extract_features(header_dict: Dict[str, str]) -> List[float]:
 
     # Content-Type analysis
     content_type = header_dict.get("Content-Type", "")
-    suspicious_mime_types = ["application/x-evil", "text/hack", "application/x-shellcode"] # FIXME
-    features.append(1 if any(mime in content_type for mime in suspicious_mime_types) else 0)
+    suspicious_mime_types = [
+        # Executable types in web context
+        (r'application/x-msdownload', 0.8), # .exe, .dll
+        (r'application/x-sh', 0.7), # shell scripts
+        (r'application/x-executable', 0.8), # generic executable
+
+        # Unusual for typical web traffic
+        (r'application/hta', 0.9), # html application (often malicious)
+        (r'application/x-httpd-php', 0.6), # php source
+        (r'text/scriptlet', 0.7), # windows scriptlet
+
+        # Potentially dangerous if unexpected
+        (r'multipart/x-mixed-replace', 0.5), # server push (rare)
+        (r'application/octet-stream', 0.3), # generic binary
+
+        # Malformed or suspicious
+        (r'^text/plain.*<script', 0.9), # html/js hiding as plain text
+        (r'[;\s].*[<>]', 0.6), # possible injection in mime parameter
+        (r'^$', 0.4), # empty Content-Type
+    ]
+
+    mime_suspicion_score = 0
+    for pattern, severity in suspicious_mime_types:
+        if re.search(pattern, content_type, re.IGNORECASE):
+            mime_suspicion_score = max(mime_suspicion_score, severity)
+            break
+
+    features.append(mime_suspicion_score)
 
     # Check for header injection attempts
-    injection_patterns = [r'\r\n]', r'%0[dD]%0[aA]', r'%0[aA]', r'%0[dD]']
+    injection_patterns = [r'[\r\n]', r'%0[dD]%0[aA]', r'%0[aA]', r'%0[dD]']
     injection_score = 0
     for value in header_dict.values():
         for pattern in injection_patterns:
@@ -284,8 +311,14 @@ def get_feature_names() -> List[str]:
         "std_value_length"
     ])
 
+    names.extend([
+        "avg_entropy",
+        "max_entropy",
+        "encoding_anomaly_score"
+    ])
+
     # Structural features
-    names.extent([
+    names.extend([
         "header_order_deviation",
         "case_consistency"
     ])
