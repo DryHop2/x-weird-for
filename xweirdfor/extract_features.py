@@ -1,7 +1,7 @@
 import math
 import re
 from collections import Counter
-from typing import Dict, List, Any
+from typing import Dict, List
 
 
 EXPECTED_HEADERS = {

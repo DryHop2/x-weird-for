@@ -1,9 +1,8 @@
 import re
-import math
 import ipaddress
 from typing import Dict, List, Any
-from collections import Counter
 from datetime import datetime, timezone
+from email.utils import parsedate_to_datetime
 from difflib import SequenceMatcher
 
 
@@ -11,13 +10,13 @@ SUSPICIOUS_HEADERS = {
     # Known malicious
     "X-Forwarded-Host": {"severity": "high", "reason": "Often used in host header injection"},
     "X-Original-URL": {"severity": "high", "reason": "Can bypass security controls"},
-    "X-Rewrite_URL": {"severity": "high", "reason": "Can bypass security controls"},
+    "X-Rewrite-URL": {"severity": "high", "reason": "Can bypass security controls"},
 
     # Uncommon/suspicious
     "X-Custom-IP-Authorization": {"severity": "medium", "reason": "Non-standard auth header"},
     "X-Originating-IP": {"severity": "low", "reason": "May leak internal IP"},
-    "X-Remote-IP": {"severity": "low", "reason": "May  leak internal IP"},
-    "X-Client-IP": {"severity": "low", "reason": "May leak inernal IP"},
+    "X-Remote-IP": {"severity": "low", "reason": "May leak internal IP"},
+    "X-Client-IP": {"severity": "low", "reason": "May leak internal IP"},
 
     # Testing/debug headers
     "X-Test": {"severity": "low", "reason": "Testing header in production"},
@@ -26,7 +25,7 @@ SUSPICIOUS_HEADERS = {
 }
 
 
-def check_ip_anomalies(value: str) -> Dict[str, Any]:
+def _check_ip_anomalies(value: str) -> Dict[str, Any]:
     """
     Check for IP address anomalies.
     """
@@ -75,33 +74,58 @@ def check_ip_anomalies(value: str) -> Dict[str, Any]:
     return {"ip_anomalies": anomalies} if anomalies else {}
 
 
-def check_timing_anomalies(headers: Dict[str, str]) -> Dict[str, Any]:
+def _check_timing_anomalies(headers: Dict[str, str]) -> Dict[str, Any]:
     """
-    Check for timin-related anomalies.
+    Check for timing-related anomalies.
     """
     anomalies = []
-
-    # Check If-Modified-Since and If-Unmodified-Since
-    date_headers = ["If-Modified-Since", "If-Unmodified-Since", "Date"]
+    date_headers = ["If-Modified-Since", "If-Unmodified-Since", "Date", "Last-Modified"]
 
     for header in date_headers:
         if header in headers:
+            value = headers[header]
+
+            # Check for obvious bad patterns first
+            if any(bad in value for bad in ["9999", "0000", "1970-01-01"]):
+                anomalies.append({
+                    "header": header,
+                    "issue": "Suspicious date value",
+                    "severity": "medium"
+                })
+                continue
+
             try:
-                # Try to parse the date
-                # FIXME update to proper http parsing [placeholder]
-                if "9999" in headers[header] or "0000" in headers[header]:
+                # Parsed http date format
+                parsed_date = parsedate_to_datetime(value)
+                now = datetime.now(timezone.utc)
+
+                # Check if date is in the future
+                if parsed_date > now:
                     anomalies.append({
                         "header": header,
-                        "issue": "Suspicious date value",
-                        "severity": "medium"
+                        "issue": "Future date",
+                        "severity": "low" if (parsed_date - now).days < 7 else "medium"
                     })
-            except:
-                pass
+
+                # Check if date is suspiciously old
+                elif (now - parsed_date).days > 3650:
+                    anomalies.append({
+                        "header": header,
+                        "issue": "Very old date (>10 years)",
+                        "severity": "low"
+                    })
+
+            except (ValueError, TypeError, AttributeError):
+                anomalies.append({
+                    "header": header,
+                    "issue": "Invalid date format",
+                    "severity": "medium"
+                })
 
     return {"timing_anomalies": anomalies} if anomalies else {}
 
 
-def check_encoding_chains(value: str) -> List[Dict[str, Any]]:
+def _check_encoding_chains(value: str) -> List[Dict[str, Any]]:
     """
     Detect multiple encoding layers.
     """
@@ -129,9 +153,9 @@ def check_encoding_chains(value: str) -> List[Dict[str, Any]]:
     return issues
 
 
-def calculate_mutation_score(headers: Dict[str, str]) -> float:
+def _calculate_mutation_score(headers: Dict[str, str]) -> float:
     """
-    Calculate a mutation score indicating howmuch headers deviate from standard patterns.
+    Calculate a mutation score indicating how much headers deviate from standard patterns.
     """
     score = 0.0
     mutations = []
@@ -212,13 +236,13 @@ def analyze_headers(header_dict: Dict[str, str]) -> Dict[str, Any]:
             results["risk_score"] += severity_scores[SUSPICIOUS_HEADERS[header]["severity"]]
 
         # Check for encoding issues
-        encoding_issues = check_encoding_chains(value)
+        encoding_issues = _check_encoding_chains(value)
         if encoding_issues:
             results["encoding_issues"].extend(encoding_issues)
-            results["risk_score"] += severity_scores[SUSPICIOUS_HEADERS[header]["severity"]]
+            results["risk_score"] += 0.1 * len(encoding_issues)
 
         # Check for IP anomalies
-        ip_results = check_ip_anomalies(value)
+        ip_results = _check_ip_anomalies(value)
         if ip_results:
             results["content_anomalies"].append(ip_results)
             results["risk_score"] += 0.05 * len(ip_results.get("ip_anomalies", []))
@@ -241,17 +265,17 @@ def analyze_headers(header_dict: Dict[str, str]) -> Dict[str, Any]:
             })
             results["risk_score"] += 0.4
 
-        # Check User-Agent specifically
-        ua = header_dict.get("User-Agent", "")
-        if ua:
-            # Check for empty or very short UA
-            if len(ua) < 10:
-                results["content_anomalies"].append({
-                    "type": "short_user_agent",
-                    "length": len(ua),
-                    "severity": "medium"
-                })
-                results["risk_score"] += 0.2
+    # Check User-Agent specifically
+    ua = header_dict.get("User-Agent", "")
+    if ua:
+        # Check for empty or very short UA
+        if len(ua) < 10:
+            results["content_anomalies"].append({
+                "type": "short_user_agent",
+                "length": len(ua),
+                "severity": "medium"
+            })
+            results["risk_score"] += 0.2
 
         # Check for script/automation tools
         automation_keywords = ["bot", "crawler", "spider", "scraper", "curl", "wget", "python", "java"]
@@ -264,15 +288,16 @@ def analyze_headers(header_dict: Dict[str, str]) -> Dict[str, Any]:
                 })
                 results["risk_score"] += 0.15
                 break
+
     # Calculate mutation score
-    mutation_score, mutations = calculate_mutation_score(header_dict)
+    mutation_score, mutations = _calculate_mutation_score(header_dict)
     if mutation_score > 0:
         results["mutation_indicators"] = mutations
         results["mutation_score"] = mutation_score
         results["risk_score"] += mutation_score * 0.3
 
     # Check timing anomalies
-    timing_results = check_timing_anomalies(header_dict)
+    timing_results = _check_timing_anomalies(header_dict)
     if timing_results:
         results["content_anomalies"].append(timing_results)
         results["risk_score"] += 0.1
