@@ -10,7 +10,7 @@ from sklearn.metrics import (
     f1_score
 )
 
-def create_comprehensive_plots(y_true, y_scores, y_pred, output_dir="examples"):
+def create_comprehensive_plots(y_true, y_scores, y_pred, output_dir="results/evaluation"):
     """
     Create evaluation plots.
     """
@@ -97,7 +97,7 @@ def create_comprehensive_plots(y_true, y_scores, y_pred, output_dir="examples"):
     ax.legend()
 
     plt.tight_layout()
-    plt.savefig(f"{output_dir}/comprehensive_evaluation.png", dpi=150)
-    print(f"Comprehensive evaluation plots saved to {output_dir}/comprehensive_evaluation.png")
+    plt.savefig(f"{output_dir}/score_distribution.png", dpi=150)
+    print(f"Comprehensive evaluation plots saved to {output_dir}/score_distribution.png")
 
     return best_threshold

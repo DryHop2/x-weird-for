@@ -94,7 +94,7 @@ def generate_dataset(n_samples=1000, ratio=0.5):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate synthetic HTTP header dataset")
-    parser.add_argument("--output", default="examples/synthetic_eval.json", help="Output file path")
+    parser.add_argument("--output", default="data/evaluation/synthetic_eval.json", help="Output file path")
     parser.add_argument("--samples", type=int, default=1000, help="Total number of samples")
     parser.add_argument("--ratio", type=float, default=0.5, help="Proportion of normal samples (0.0 - 1.0)")
     parser.add_argument("--seed", type=int, help="Random seed for reproducibility")

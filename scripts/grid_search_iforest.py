@@ -1,6 +1,7 @@
 import argparse
 import json
 import joblib
+import os
 from itertools import product
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.ensemble import IsolationForest
@@ -35,11 +36,15 @@ def evaluate_model(model, data, threshold):
 def main():
     parser = argparse.ArgumentParser(description="Grid search Isolation Forest hyperparams")
     parser.add_argument("--input", required=True, help="Path to eval_labeled.json")
+    parser.add_argument("--output_path", default="results/grid_search", help="Directory for output files")
     parser.add_argument("--threshold", type=float, default=0.0, help="Score threshold for normal/suspicious")
     parser.add_argument("--save-best", action="store_true", help="Save best models as models/best_model.pkl")
     args = parser.parse_args()
 
     data = load_eval_data(args.input)
+    output_path = args.output_path
+    os.path.join(output_path, "grid_search_results.json")
+    os.makedirs(output_path, exist_ok=True)
 
     n_estimators_options = [50, 100, 150]
     contamination_options = [0.05, 0.1, 0.15]
@@ -51,8 +56,14 @@ def main():
     best_model = None
     best_params = None
 
-    print("Starting grid search...\n")
+    print("Extracting features...")
+    features = [extract_features(d["headers"]) for d in data]
 
+    total_combinations = len(n_estimators_options) * len(contamination_options) * len(max_features_options)
+    current = 0
+    results = []
+
+    print("Starting grid search...\n")
     for n, c, m in product(n_estimators_options, contamination_options, max_features_options):
         model = IsolationForest(
             n_estimators=n,
@@ -60,8 +71,8 @@ def main():
             max_features=m,
             random_state=42
         )
-
-        features = [extract_features(d["headers"]) for d in data]
+        current += 1 
+        print(f"[{current}/{total_combinations}] Testing n={n}, c={c}, m={m}...")
         model.fit(features)
         
         f1, recall, acc = evaluate_model(model, data, threshold=args.threshold)
@@ -71,17 +82,28 @@ def main():
         if (
             f1 > best_score or
             (f1 == best_score and recall > best_recall) or
-            (f1 == best_score and recall > best_recall and acc > best_accuracy)):
+            (f1 == best_score and recall == best_recall and acc > best_accuracy)):
             best_score = f1
             best_recall = recall
             best_accuracy = acc
             best_model = model
             best_params = (n, c, m)
 
+        results.append({
+            "params": {"n_estimators": n, "contamination": c, "max_features": m},
+            "f1": f1,
+            "recall": recall,
+            "accuracy": acc
+        })
+
+    with open(output_path, "w") as f:
+        json.dump(results, f, indent=2)
+    print(f"Results saved to {output_path}")
+
         
     print("\n\nBest config:")
     print(f"n_estimators={best_params[0]}, contamination={best_params[1]}, max_features={best_params[2]}")
-    print(f"Best accuracty: {best_score:.3f}")
+    print(f"Best F1: {best_score:.3f} | Recall: {best_recall:.3f} | Accuracy: {best_accuracy:.3f}")
 
     if args.save_best and best_model:
         joblib.dump(best_model, "models/best_model.pkl")
