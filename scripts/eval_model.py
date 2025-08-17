@@ -1,3 +1,7 @@
+import argparse
+import json
+import joblib
+import os
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -10,10 +14,31 @@ from sklearn.metrics import (
     f1_score
 )
 
+from xweirdfor.extract_features import extract_features
+
+
+def load_eval_data(path):
+    """
+    Load labeled evaluation data.
+    """
+    with open(path, "r") as f:
+        data = json.load(f)
+    return data
+
+
+def predict_verdict(score, threshold=0):
+    """
+    Convert score to verdict based on threshold.
+    """
+    return "normal" if score >= threshold else "suspicious"
+
+
 def create_comprehensive_plots(y_true, y_scores, y_pred, output_dir="results/evaluation"):
     """
     Create evaluation plots.
     """
+    os.makedirs(output_dir, exist_ok=True)
+
     fig, axes = plt.subplots(2, 3, figsize=(15, 10))
 
     # 1. Score distribution
@@ -22,7 +47,7 @@ def create_comprehensive_plots(y_true, y_scores, y_pred, output_dir="results/eva
     suspicious_scores = [s for s, l in zip(y_scores, y_true) if l == "suspicious"]
 
     ax.hist(normal_scores, bins=30, alpha=0.5, label="Normal", color="green", density=True)
-    ax.hist(suspicious_scores, bins=30, alpha=0.5, lable="Suspicious", color="red", density=True)
+    ax.hist(suspicious_scores, bins=30, alpha=0.5, label="Suspicious", color="red", density=True)
     ax.axvline(x=0, color="black", linestyle="--", label="Default threshold")
     ax.set_title("Anomaly Score Distribution")
     ax.set_xlabel("Score")
@@ -97,7 +122,69 @@ def create_comprehensive_plots(y_true, y_scores, y_pred, output_dir="results/eva
     ax.legend()
 
     plt.tight_layout()
-    plt.savefig(f"{output_dir}/score_distribution.png", dpi=150)
-    print(f"Comprehensive evaluation plots saved to {output_dir}/score_distribution.png")
+
+    output_file = os.path.join(output_dir, "comprehensive_evaluation.png")
+    plt.savefig(output_file, dpi=150)
+    print(f"Comprehensive evaluation plots saved to {output_file}")
 
     return best_threshold
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Evaluate model on labeled data")
+    parser.add_argument("--model", default="models/model.pkl", help="Path to trained model")
+    parser.add_argument("--input", required=True, help="Path to labeled eval data")
+    parser.add_argument("--threshold", type=float, default=0.0, help="Score threshold for normal/suspicious")
+    parser.add_argument("--output-dir", default="results/evaluation", help="Directory for output files")
+    args = parser.parse_args()
+
+    # Load model and data
+    model = joblib.load(args.model)
+    data = load_eval_data(args.input)
+
+    # Collect predictions
+    y_true = []
+    y_pred = []
+    all_scores = []
+
+    print("Evaluating model...")
+    for entry in data:
+        headers = entry["headers"]
+        label = entry["label"]
+
+        features = extract_features(headers)
+        score = model.decision_function([features])[0]
+        verdict = predict_verdict(score, threshold=args.threshold)
+
+        y_true.append(label)
+        y_pred.append(verdict)
+        all_scores.append(score)
+
+    # Print classification report
+    print("\n=== Classification Report ===")
+    print(classification_report(y_true, y_pred))
+
+    print("\n=== Confusion Matrix ===")
+    print(confusion_matrix(y_true, y_pred, labels=["normal", "suspicious"]))
+
+    # Calculate average scores
+    avg_normal = sum(score for score, label in zip(all_scores, y_true) if label == "normal") / y_true.count("normal")
+    avg_suspicious = sum(score for score, label in zip(all_scores, y_true) if label == "suspicious") / y_true.count("suspicious")
+
+    print(f"\nAverage score for normal: {avg_normal:.4f}")
+    print(f"Average score for suspicious: {avg_suspicious:.4f}")
+
+    # Create plots and get best threshold
+    best_threshold = create_comprehensive_plots(y_true, all_scores, y_pred, args.output_dir)
+
+    print(f"\n=== Optimal Threshold ===")
+    print(f"Best threshold for F1 score: {best_threshold:.4f}")
+
+    # Re-evaluate with best threshold
+    y_pred_best = [predict_verdict(score, best_threshold) for score in all_scores]
+    f1_best = f1_score(y_true, y_pred_best, pos_label="suspicious", average="binary")
+    print(f"F1 score with the best threshold: {f1_best:.3f}")
+
+
+if __name__ == "__main__":
+    main()
