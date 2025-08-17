@@ -10,3 +10,4 @@ __pycache__/
 .vscode/
 synthetic_eval.json
 *.png
+results/predictions/
