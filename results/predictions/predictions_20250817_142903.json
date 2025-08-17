@@ -1,0 +1,41 @@
+{
+  "metadata": {
+    "timestamp": "2025-08-17T14:29:03.366991",
+    "model_path": "models/model.pkl",
+    "input_file": "data/test/bad_request.json",
+    "total_samples": 1,
+    "summary": {
+      "normal": 0,
+      "suspicious": 1,
+      "gray": 0
+    }
+  },
+  "predictions": [
+    {
+      "index": 0,
+      "verdict": "suspicious",
+      "score": -0.11497998174879664,
+      "model_type": "single",
+      "heuristic_risk": 0.85,
+      "heuristic_risk_level": "high",
+      "missing_critical_headers": [
+        "Host"
+      ],
+      "suspicious_headers": [
+        {
+          "header": "X-Test",
+          "value": "1",
+          "severity": "low",
+          "reason": "Testing header in production"
+        },
+        {
+          "header": "X-Foo",
+          "value": "bar",
+          "severity": "low",
+          "reason": "Placeholder header"
+        }
+      ],
+      "final_verdict": "suspicious"
+    }
+  ]
+}

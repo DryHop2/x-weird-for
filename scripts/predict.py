@@ -1,7 +1,9 @@
 import joblib
 import argparse
 import json
+import os
 import numpy as np
+from datetime import datetime
 
 from xweirdfor.extract_features import extract_features
 from xweirdfor.heuristics import analyze_headers
@@ -106,6 +108,8 @@ def run_prediction(model_data, header_dict):
 def main():
     parser = argparse.ArgumentParser(description="Analyze HTTP headers for anomalies.")
     parser.add_argument("--input", required=True, help="Path to header JSON file")
+    parser.add_argument("--save-output", help="Save predictions to file (JSON)")
+    parser.add_argument("--output-dir", default="results/predictions", help="Directory for saved predictions")
     parser.add_argument("--model", default="models/model.pkl", help="Path to model or ensemble")
     parser.add_argument("--verbose", action="store_true", help="Show detailed voting info")
     parser.add_argument("--format", choices=["json", "text"], default="json", help="Output format")
@@ -123,6 +127,8 @@ def main():
 
     # Load model
     model_data = load_model(args.model)
+
+    all_results = []
 
     for i, headers in enumerate(header_sets):
         ml_result = run_prediction(model_data, headers)
@@ -160,6 +166,10 @@ def main():
             else:
                 result["final_verdict"] = ml_result["verdict"]
 
+        # Collect results if saving
+        if args.save_output:
+            all_results.append(result)
+
         # Output
         if args.format == "json":
             if not args.verbose and "votes" in result:
@@ -189,6 +199,43 @@ def main():
 
             if result.get("suspicious_headers"):
                 print(f"Suspicious Headers: {len(result['suspicious_headers'])} found")
+
+    # Save results if requested
+    if args.save_output:
+        os.makedirs(args.output_dir, exist_ok=True)
+
+        # Generate a filename with timestamp if not specified
+        if args.save_output == "auto":
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"predictions_{timestamp}.json"
+        else:
+            filename = args.save_output
+        
+        output_path = os.path.join(args.output_dir, filename)
+
+        # Add metadata
+        output_data = {
+            "metadata": {
+                "timestamp": datetime.now().isoformat(),
+                "model_path": args.model,
+                "input_file": args.input,
+                "total_samples": len(all_results),
+                "summary": {
+                    "normal": sum(1 for r in all_results if r["final_verdict"] == "normal"),
+                    "suspicious": sum(1 for r in all_results if r["final_verdict"] == "suspicious"),
+                    "gray": sum(1 for r in all_results if r["final_verdict"] == "gray")
+                }
+            },
+            "predictions": all_results
+        }
+
+        with open(output_path, "w") as f:
+            json.dump(output_data, f, indent=2)
+
+        print(f"\n{'='*60}")
+        print(f"Predictions saved to: {output_path}")
+        print(f"Summary: {output_data['metadata']['summary']}")
+
 
 
 if __name__ == "__main__":
