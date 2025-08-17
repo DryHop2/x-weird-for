@@ -100,7 +100,7 @@ def main():
     # Print model summaries
     for name, model in models:
         scores = model.decision_function(features)
-        anomalies = sum(model.prediction(features) == -1)
+        anomalies = sum(model.predict(features) == -1)
         print(f"\n{name.upper()} model:")
         print(f"  Anomalies detected: {anomalies}/{len(features)} ({100 * anomalies / len(features):.1f}%)")
         print(f"  Score range: [{scores.min():.3f}, {scores.max():.3f}]")
