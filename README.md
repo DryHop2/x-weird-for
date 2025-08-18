@@ -75,10 +75,10 @@ python3 -m scripts.predict --input data/test/bad_request.json --model models/mod
 
 ```
 # Evaluate model on labeled data
-python3 scripts.eval_model --model models/model.pkl --input data/evaluation/eval_labeled.json
+python3 -m scripts.eval_model --model models/model.pkl --input data/evaluation/eval_labeled.json
 
 # Find optimal parameters
-python3 scipts.grid_serach_iforest --input data/evaluation/eval_labeled.json --save-best
+python3 -m scipts.grid_serach_iforest --input data/evaluation/eval_labeled.json --save-best
 ```
 
 -----
