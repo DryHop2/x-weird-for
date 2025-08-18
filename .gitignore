@@ -1,13 +1,78 @@
+# Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
 .venv/
+venv/
+ENV/
+env/
+
+# Environment variables
 .env
 .env.*
-.devcontainer/
-.DS_Store
+*.env
+
+# IDE/Editor
 .vscode/
-synthetic_eval.json
-*.png
-results/predictions/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Development containers
+.devcontainer/
+
+# Models (too large/regeneratable)
+models/*.pkl
+models/*.joblib
+# Keep the models directory itself
+!models/.gitkeep
+
+# Results (regeneratable)
+results/
+# Or if you want to keep directory structure:
+# results/evaluation/*.png
+# results/evaluation/*.json
+# results/grid_search/*.json
+# results/predictions/*.json
+# !results/evaluation/.gitkeep
+# !results/grid_search/.gitkeep
+# !results/predictions/.gitkeep
+
+# Test outputs
+*.log
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Jupyter Notebooks (if you use them)
+.ipynb_checkpoints/
+*.ipynb
+
+# Data files (if they get large)
+# Uncomment if your data files are large or sensitive
+# data/training/*.json
+# data/evaluation/*.json
+# !data/training/training_set_example.json
+# !data/evaluation/eval_labeled_example.json
